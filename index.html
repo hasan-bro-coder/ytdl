@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  <meta name="description" content="fast and simple youtube video downloader 
+with no ads, no virus 
+and its made for people not for money " />
+  <!-- Primary Meta Tags -->
+  <title>Youtube Video Downloader</title>
+  <meta name="title" content="Youtube Video Downloader" />
+  <meta name="description" content="fast and simple youtube video downloader 
+	  with no ads, no virus 
+	  and its made for people not for money " />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ytdl.hsn-bro.repl.co/" />
+  <meta property="og:title" content="Youtube Video Downloader" />
+  <meta property="og:description" content="fast and simple youtube video downloader 
+	  with no ads, no virus 
+	  and its made for people not for money " />
+  <meta property="og:image" content="https://metatags.io/images/meta-tags.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://ytdl.hsn-bro.repl.co/" />
+  <meta property="twitter:title" content="Youtube Video Downloader" />
+  <meta property="twitter:description" content="fast and simple youtube video downloader 
+	  with no ads, no virus 
+	  and its made for people not for money " />
+  <meta property="twitter:image" content="https://metatags.io/images/meta-tags.png" />
+
+  <!-- Meta Tags Generated with https://metatags.io -->
+
+  <meta name="og:card" content="summary_large_image">
+  <meta name="og:site" content="https://pagecord.vercel.app">
+  <meta name="og:title" content="Page Cord">
+  <meta name="og:description" content="fast and simple youtube video downloader 
+		  with no ads, no virus 
+		  and its made for people not for money">
+  <meta name="og:image" content="/other/screenshot.png">
+</head>
+
+<style>
+  .bg-black {
+    background-color: #222;
+  }
+
+  #overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+    cursor: pointer;
+  }
+
+  .spinner-grow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 80px;
+    width: 80px;
+  }
+
+  a {
+    color: #1787ff
+  }
+</style>
+
+<body class="bg-black text-white">
+  <main class="container-fluid" class="bg-black">
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <div class="card card-body mt-4 bg-black border border-white">
+          <h4 class="card-title">Youtube Video Downloader</h4>
+          <form action="/" method="post">
+            <div class="form-group">
+              <input type="text" class="form-control" name="link" placeholder="Enter video link here " required />
+              <br />
+              <input type="checkbox" id="video" checked />
+              <label for="video">video</label>
+              <br />
+              <input type="checkbox" id="audio" checked />
+              <label for="audio">audio</label>
+            </div>
+            <button id="btn" type="submit" class="btn btn-outline-success">
+              load
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center align-items-center flex-column mt-5 flex-column">
+      <h4 class="vidler">Youtube Video</h4>
+      <div class="d-flex justify-content-center align-items-center col-lg-6 mx-auto flex-column out">
+        <video src="" controls class="w-100" alt="video" loading="lazy"></video>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <div class="card card-body mt-4 bg-black detail "></div>
+      </div>
+    </div>
+    <footer class="row d-flex justify-content-center align-items-center mt-5">
+      <div class="col-lg-6 mx-auto">
+        <div
+          class="card card-body mt-4 bg-black border border-white d-flex justify-content-center align-items-center flex-column">
+          <h4>Credits</h4>
+          <ul class="">
+            <li>made by hsn-bro-coder (hasan)</li>
+            <li>
+              using
+              <a href="https://www.npmjs.com/package/youtube-exec">youtube-exec</a>
+              and
+              <a href="https://www.npmjs.com/package/express">express</a>
+              library in nodejs
+            </li>
+            <li>
+              and huge thankes to <a href="https://replit.com/">replit.com</a>
+            </li>
+            <li>share this with your friends and family</li>
+          </ul>
+          <p class="">this website is made for people not for money</p>
+
+        </div>
+      </div>
+    </footer>
+    </div>
+
+    <div id="overlay">
+      <div class="spinner-grow text-success" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function () {
+        let requested = false;
+        $("#video").on("input", (e) => {
+          if (requested) {
+            return 0;
+          }
+          if ($("#video").prop("checked")) {
+            $(".vidler").html("youtube video");
+            $(".out").html(
+              `<video controls alt="video" class="w-100" loading="lazy"></video>`,
+            );
+          } else if ($("#audio").prop("checked")) {
+            $(".out").html(`<audio controls src="" class="w-100"></audio>`);
+            $(".vidler").html("the audio");
+          } else {
+            $(".vidler").html("");
+            $(".out").html(``);
+          }
+        });
+        $("#audio").on("input", (e) => {
+          if (requested) {
+            return 0;
+          }
+          if (!$("#video").prop("checked")) {
+            $(".vidler").html("the audio");
+            $(".out").html(`<audio controls src="" class="w-100"></audio>`);
+          }
+          if (!$("#audio").prop("checked") && !$("#video").prop("checked")) {
+            $(".vidler").html("");
+            $(".out").html(``);
+          }
+        });
+        $("form").on("submit", async function (event) {
+          event.preventDefault();
+          $("#overlay").css("display", "block");
+          let link = $(".form-control").val();
+          let vid = $("#video").prop("checked");
+          let aud = $("#audio").prop("checked");
+          if (!vid && !aud) {
+            alert("atleast check on of the types\nvideo,audio or both");
+            return 0;
+          }
+          let inter = "";
+          let time = 0;
+          const xhr = new XMLHttpRequest();
+          const success = await new Promise((resolve) => {
+            xhr.addEventListener("error", (event) => {
+              alert(
+                "some error happened bro , try again \n the error: \n" + event,
+              );
+              console.log(event);
+            });
+            xhr.addEventListener("loadend", (evt) => {
+              console.log(xhr.response)
+              if (!xhr.response) return 0;
+              try {
+                $("#overlay").css("display", "none");
+                let res = JSON.parse(xhr.response);
+                if (res?.err) {
+                  console.log(res.err);
+                  alert(
+                    "some error happened bro , try again \n the error: \n" +
+                    res.err,
+                  );
+                  return 0;
+                }
+                console.log(res.media);
+                document.querySelector(".detail").innerHTML =
+                  `<h4 class="card-title">Video details</h4> ` +
+                  `<div>title : ${res.title}</div>`;
+                for (let key in res.media) {
+                  if (
+                    [
+                      "tbr",
+                      "has_drm",
+                      "downloader_option",
+                      "vbr",
+                      "abr",
+                      "source_preference",
+                      "asr",
+                      "http_headers",
+                      "language_preference",
+                      "downloader_options",
+                      "dynamic_range",
+                      "format_id",
+                      "url",
+                    ].includes(key) ||
+                    res.media[key] == null
+                  ) {
+                    continue;
+                  }
+                  document.querySelector(".detail").innerHTML +=
+                    `<div>${key.replace("_", " ")} : ${res.media[key]}</div>`;
+                }
+                document.querySelector(".out").innerHTML +=
+                  `<a class="btn btn-outline-success" href="${res.media.url
+                  }" download="file.mp4" >download</a>`;
+                if (res.type == "video") {
+                  $("video").attr(
+                    "src",
+                    res.media.url,
+                  );
+                  if (!aud) {
+                    document.querySelector("video").muted = true
+                  }
+                } else {
+                  $("audio").attr("src", res.media.url);
+                }
+                console.log("done");
+                resolve(xhr.readyState === 4 && xhr.status === 200);
+              } catch (err) {
+                console.log(err)
+                //  alert(
+                //   "some error happened bro , try again \n the error: \n" + err,
+                // );
+              }
+            });
+            xhr.open("POST", "/yt", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(
+              JSON.stringify({
+                link: link,
+                video: vid,
+                audio: aud,
+              }),
+            );
+          });
+        });
+      });
+    </script>
+</body>
+
+</html>
