@@ -4,6 +4,7 @@
 
 ## website (hosted on render) :
 https://ytdl-rhj7.onrender.com/
+(warning:!! not supported rn !!)
 
 a star would be much appreciated😉
 
